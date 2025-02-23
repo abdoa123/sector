@@ -1,0 +1,5 @@
+1. Unique dr account ( his data is not shared, just lab; path and radiology ) 
+3. Frequency => table , routes => done
+5. Forget password ( medcloudeg.com )
+6. Dr sub admin => newRole =>  done
+important. Card generation automatically => waiting confirm

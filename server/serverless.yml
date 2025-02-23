@@ -1,0 +1,40 @@
+service: medcloudserver
+custom:
+  secrets: ${file(./env.config.js):getSecretValue}
+  originUrl:
+    trial: 'https://xcuteit.com'
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: ${opt:stage, 'prod'}
+  region: eu-west-1
+  memorySize: 256
+functions:
+  app:
+    handler: server.handler
+    vpc:
+      securityGroupIds:
+        - sg-012462673ad86efcc
+      subnetIds:
+        - subnet-00ef1ab585fa6ac96
+    environment:
+      user: ${self:custom.SECRETS.user}
+      database: ${self:custom.SECRETS.database}
+      password: ${self:custom.SECRETS.password}
+      host: ${self:custom.SECRETS.host}
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors:
+            origin: 'https://xcuteit.com'
+            allowCredentials: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors:
+            origin: 'https://xcuteit.com'
+            allowCredentials: true
+    timeout: 30 # in seconds, default is 6
+plugins:
+  - serverless-offline

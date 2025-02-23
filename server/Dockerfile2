@@ -1,0 +1,8 @@
+FROM public.ecr.aws/lambda/nodejs:14
+WORKDIR /app
+COPY package*.json ./
+RUN npm install 
+COPY ./ ./
+RUN chmod 777 * -R
+#CMD ["npm", "start"]
+CMD ["handler.hello"]
