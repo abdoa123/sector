@@ -60,16 +60,7 @@ db.sequelize.sync({alter:true}).catch(err=>{
 });
 app.use(cookieParser('lifeless-secret-01890'));
 
-app.use(express.urlencoded({ extended: true, limit: '100mb' }));
-app.use(express.json({limit: '100mb'}));
-app.use(session({
-  secret: 'asdjklfgdjk',
-  name: 'sessionId',
-  resave: false,
-  saveUninitialized: true,
-  rolling: true, // <-- Set `rolling` to `true`
-  cookie  : {  maxAge  : 24 * 60 * 60 * 1000 , httpOnly:false,sameSite: false,secure:false }
-        }))
+
         
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -84,22 +75,12 @@ require("./routes/tech.route")(app, () => cors(corsOptions));
 
 
 //app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'front/build/index.html')));
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}...`);
+});
 
-
-  // set port, listen for requests
-  if (process.env.AWS_DEPLOY == "local") { // local host on port 4201
-    const port = process.env.PORT || 8080;
-    app.listen(port, () => {
-      console.log(`Listening on port ${port}...`);
-    });
-  } else if (process.env.AWS_DEPLOY == 'trial') { //
-    var serverless = require('serverless-http');
-    module.exports.handler = serverless(app);
-    // const port = process.env.PORT;
-    // app.listen(port, () => {
-    //   console.log(`Listening on port ${port}...`);
-    // });
-  }
+ 
 }
 initializeApp()
   .then(() => {
