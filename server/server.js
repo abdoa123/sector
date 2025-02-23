@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 
 
 
-app.use(express.static(path.resolve(__dirname, 'front/build')));
 
 
 // parse requests of content-type - application/x-www-form-urlencoded
